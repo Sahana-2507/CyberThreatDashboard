@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Threat Detection Dashboard | SOC Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="soc-theme">
+  <!-- Subtle Ambient Glow Effects -->
+  <div class="ambient-glow glow-cyan"></div>
+  <div class="ambient-glow glow-purple"></div>
+
+  <div class="soc-layout">
+    <!-- Sleek SOC Sidebar -->
+    <aside class="soc-sidebar" id="socSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-wrap">
+          <svg class="brand-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v4" stroke="currentColor" stroke-linecap="round"/>
+            <circle cx="12" cy="16" r="1" fill="currentColor"/>
+          </svg>
+          <span class="brand-pulse-dot"></span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">AEGIS <span class="cyan-text">SOC</span></span>
+          <span class="brand-sub">THREAT DEFENSE v2.4</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">SECURITY OPERATIONS</div>
+        <a href="#overview-section" class="nav-link active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          <span>Security Overview</span>
+        </a>
+        <a href="#inspector-section" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+          <span>Packet Inspector</span>
+        </a>
+        <a href="#analytics-section" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 20V10"/>
+            <path d="M12 20V4"/>
+            <path d="M6 20v-6"/>
+          </svg>
+          <span>Threat Analytics</span>
+        </a>
+        <a href="#logs-section" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          <span>Real-Time Logs</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-status-card">
+        <div class="status-indicator-row">
+          <span class="pulse-beacon beacon-green"></span>
+          <span class="status-label">ENGINE STATUS</span>
+        </div>
+        <div class="status-val-row">
+          <span class="status-highlight">OPERATIONAL</span>
+          <span class="status-ping">2.5s cycle</span>
+        </div>
+        <div class="engine-rules-bar">
+          <div class="rules-progress"></div>
+        </div>
+        <span class="rules-note">Heuristic Signature Engine Active</span>
+      </div>
+    </aside>
+
+    <!-- Main SOC Viewport -->
+    <div class="soc-main">
+      <!-- Top SOC Header Bar -->
+      <header class="soc-header">
+        <div class="header-left">
+          <button class="mobile-toggle-btn" id="mobileToggleBtn" onclick="toggleSidebar()" aria-label="Toggle navigation">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="header-title-box">
+            <div class="header-badge-row">
+              <span class="system-status-pill">
+                <span class="status-dot"></span>
+                SYSTEM OPERATIONAL
+              </span>
+              <span class="soc-cluster-tag">SOC REGION // US-EAST-NODE1</span>
+            </div>
+            <h1 class="soc-title">Cyber Threat Detection Dashboard</h1>
+            <p class="subtitle">Live Network Monitor & Heuristic Inspection Engine</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-stat-chip">
+            <span class="chip-label">HEURISTIC STREAM</span>
+            <span class="chip-val"><span class="chip-dot"></span> CONNECTED</span>
+          </div>
+          <div class="header-stat-chip">
+            <span class="chip-label">SYS CLOCK (UTC)</span>
+            <span class="chip-val" id="socClock">--:--:--</span>
+          </div>
+          <span class="badge live-pulse">MONITORING ACTIVE</span>
+        </div>
+      </header>
+
+      <main class="soc-content">
+        <!-- 1. Security Overview: High-Impact KPI Cards -->
+        <section class="overview-section" id="overview-section">
+          <div class="section-header-mini">
+            <span class="section-tag">TELEMETRY</span>
+            <h2>Security Posture Overview</h2>
+          </div>
+
+          <div class="metrics-grid">
+            <!-- Card 1: Total Packets -->
+            <div class="card metric-card card-cyan">
+              <div class="card-glow"></div>
+              <div class="metric-top">
+                <span class="metric-title">Total Packets Processed</span>
+                <div class="metric-icon-wrap icon-cyan">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="metric-bottom">
+                <p id="totalPackets" class="metric-value">0</p>
+                <div class="metric-footer">
+                  <span class="metric-sub-label">Ingested Network Packets</span>
+                  <span class="metric-trend trend-positive">● Live Stream</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Threats Detected -->
+            <div class="card metric-card card-warning warning">
+              <div class="card-glow"></div>
+              <div class="metric-top">
+                <span class="metric-title">Threats Detected</span>
+                <div class="metric-icon-wrap icon-amber">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="metric-bottom">
+                <p id="totalThreats" class="metric-value">0</p>
+                <div class="metric-footer">
+                  <span class="metric-sub-label">Cumulative Security Anomalies</span>
+                  <span class="metric-trend trend-amber" id="detectionRatioBadge">Rate: 0.0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Critical / High -->
+            <div class="card metric-card card-danger danger">
+              <div class="card-glow"></div>
+              <div class="metric-top">
+                <span class="metric-title">Critical / High</span>
+                <div class="metric-icon-wrap icon-red">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="metric-bottom">
+                <p id="highThreats" class="metric-value">0</p>
+                <div class="metric-footer">
+                  <span class="metric-sub-label">Requires Immediate SOC Triage</span>
+                  <span class="metric-trend trend-danger">High Impact</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Medium / Low -->
+            <div class="card metric-card card-neutral neutral">
+              <div class="card-glow"></div>
+              <div class="metric-top">
+                <span class="metric-title">Medium / Low</span>
+                <div class="metric-icon-wrap icon-purple">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4"/>
+                    <path d="M12 8h.01"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="metric-bottom">
+                <p id="medThreats" class="metric-value">0</p>
+                <div class="metric-footer">
+                  <span class="metric-sub-label">Recon & Warning Level</span>
+                  <span class="metric-trend trend-purple">Monitored</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Dual Panel: Interactive Inspection Laboratory & Threat Severity Breakdown -->
+        <div class="soc-grid-dual">
+          <!-- Manual Packet & URL Inspector -->
+          <section class="card test-card" id="inspector-section">
+            <div class="card-corner-accent"></div>
+            <div class="inspector-header">
+              <div class="inspector-title-wrap">
+                <div class="sub-icon">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="4 17 10 11 4 5"/>
+                    <line x1="12" y1="19" x2="20" y2="19"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Manual Packet & URL Inspector</h3>
+                  <p class="test-desc">Inject simulated payloads or URLs to analyze against Java heuristic rule signatures in real-time:</p>
+                </div>
+              </div>
+              <span class="terminal-badge">INTERACTIVE CONSOLE</span>
+            </div>
+
+            <div class="sample-select-row">
+              <label for="sampleAttackSelect" class="dropdown-label">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Load Sample Attack:
+              </label>
+              <div class="select-wrapper">
+                <select id="sampleAttackSelect" class="sample-select" onchange="loadSampleAttack(this.value)">
+                  <option value="" disabled selected>Load Sample Attack</option>
+                  <option value="' OR '1'='1">SQLi (' OR '1'='1)</option>
+                  <option value="&lt;script&gt;alert(1)&lt;/script&gt;">XSS (&lt;script&gt;alert(1)&lt;/script&gt;)</option>
+                  <option value="127.0.0.1; whoami">Command Injection (127.0.0.1; whoami)</option>
+                  <option value="../../etc/passwd">Path Traversal (../../etc/passwd)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="input-prefix">
+                <span class="prefix-dot"></span>
+                <code>PAYLOAD &gt;</code>
+              </div>
+              <input type="text" id="payloadInput" placeholder="e.g., ' OR '1'='1, <script>alert(1)</script>, or http://facebook.com-login-verify-account.com">
+              <button id="inspectBtn" class="btn-inspect" onclick="inspectCustomPayload()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                Send/Analyze
+              </button>
+            </div>
+
+            <div class="preset-links">
+              <span class="preset-title">Fast Presets:</span>
+              <div class="preset-chips">
+                <button type="button" class="preset-chip" onclick="setSample('http://facebook.com-login-verify-account.com')">Phishing Link</button>
+                <button type="button" class="preset-chip" onclick="setSample('GET /user?id=1\' OR \'1\'=\'1')">SQL Injection</button>
+                <button type="button" class="preset-chip" onclick="setSample('<script>alert(document.cookie)</script>')">XSS Attack</button>
+                <button type="button" class="preset-chip" onclick="setSample('127.0.0.1; whoami')">Command Injection</button>
+                <button type="button" class="preset-chip" onclick="setSample('../../etc/passwd')">Path Traversal</button>
+                <button type="button" class="preset-chip" onclick="setSample('GET /probe?scan=network_recon HTTP/1.1')">Low Recon Probe</button>
+                <button type="button" class="preset-chip safe-chip" onclick="setSample('GET /home/profile HTTP/1.1')">Clean Normal Traffic</button>
+              </div>
+            </div>
+
+            <div id="inspectorResult" class="result-box"></div>
+          </section>
+
+          <!-- Threat Severity Breakdown Chart -->
+          <section class="card chart-card" id="analytics-section">
+            <div class="chart-header">
+              <div class="chart-title-wrap">
+                <div class="sub-icon icon-purple">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
+                    <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Threat Severity Breakdown</h3>
+                  <p class="chart-sub">Distribution of detected incidents</p>
+                </div>
+              </div>
+              <span class="chart-status-pill">REAL-TIME GAUGE</span>
+            </div>
+
+            <div class="chart-body-wrap">
+              <div class="canvas-container">
+                <canvas id="severityChart"></canvas>
+              </div>
+              <div class="chart-legend-metrics">
+                <div class="legend-card legend-crit">
+                  <div class="legend-badge-dot"></div>
+                  <div class="legend-info">
+                    <span class="legend-name">Critical / High</span>
+                    <span class="legend-count" id="legendHighCount">0</span>
+                  </div>
+                </div>
+                <div class="legend-card legend-med">
+                  <div class="legend-badge-dot"></div>
+                  <div class="legend-info">
+                    <span class="legend-name">Medium Severity</span>
+                    <span class="legend-count" id="legendMedCount">0</span>
+                  </div>
+                </div>
+                <div class="legend-card legend-low">
+                  <div class="legend-badge-dot"></div>
+                  <div class="legend-info">
+                    <span class="legend-name">Low Severity</span>
+                    <span class="legend-count" id="legendLowCount">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 3. Real-Time Incident Logs Table Section -->
+        <section class="card table-card" id="logs-section">
+          <div class="table-card-top">
+            <div class="table-title-wrap">
+              <div class="table-icon-badge">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="table-heading-line">
+                  <h3>Real-Time Incident Logs</h3>
+                  <span class="live-activity-dot"></span>
+                  <span class="threat-counter-badge" id="threatCountBadge">0 logged</span>
+                </div>
+                <p class="table-sub">Live heuristic alerts captured by network monitor</p>
+              </div>
+            </div>
+            <div class="table-actions">
+              <button id="exportCsvBtn" class="btn export-btn" onclick="exportThreatsToCSV()" title="Export all logged threats to CSV">
+                <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                  <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+                Export to CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Buttons Bar Above Table -->
+          <div class="filter-toolbar">
+            <div class="filter-buttons-wrapper">
+              <span class="filter-label">Filter Severity:</span>
+              <button type="button" class="filter-btn active" data-filter="All" onclick="filterBySeverity('All')">
+                All
+                <span class="filter-count" id="count-all">0</span>
+              </button>
+              <button type="button" class="filter-btn filter-critical" data-filter="Critical" onclick="filterBySeverity('Critical')">
+                <span class="dot dot-critical"></span>
+                Critical
+                <span class="filter-count" id="count-critical">0</span>
+              </button>
+              <button type="button" class="filter-btn filter-high" data-filter="High" onclick="filterBySeverity('High')">
+                <span class="dot dot-high"></span>
+                High
+                <span class="filter-count" id="count-high">0</span>
+              </button>
+              <button type="button" class="filter-btn filter-medium" data-filter="Medium" onclick="filterBySeverity('Medium')">
+                <span class="dot dot-medium"></span>
+                Medium
+                <span class="filter-count" id="count-medium">0</span>
+              </button>
+              <button type="button" class="filter-btn filter-low" data-filter="Low" onclick="filterBySeverity('Low')">
+                <span class="dot dot-low"></span>
+                Low
+                <span class="filter-count" id="count-low">0</span>
+              </button>
+            </div>
+            <div class="table-legend-hint">
+              <span>● Auto-updating every 2s</span>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table id="threatTable">
+              <thead>
+                <tr>
+                  <th style="width: 170px;">Timestamp</th>
+                  <th style="width: 220px;">Threat Type</th>
+                  <th style="width: 170px;">Source IP</th>
+                  <th style="width: 130px;">Severity</th>
+                  <th>Payload / Heuristic Description</th>
+                </tr>
+              </thead>
+              <tbody id="threatTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer class="soc-footer">
+        <div class="footer-left">
+          <span>CYBER THREAT DETECTION BENCHMARK &bull; JAVA HEURISTIC ENGINE</span>
+        </div>
+        <div class="footer-right">
+          <span>CONFIDENTIAL // SOC OPERATIONS ONLY</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

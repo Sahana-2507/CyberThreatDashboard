@@ -1,0 +1,73 @@
+======================================================================
+CYBER THREAT DETECTION BENCHMARK DATASET
+Course: 2311CSC304R - Object Oriented Programming Using Java
+======================================================================
+
+[CATEGORY 1: WICAR BENIGN MALWARE & BROWSER EXPLOIT TEST LINKS]
+1. http://wicar.org/data/ms03-011.html
+   - Type: Microsoft VM Vulnerability Test
+   - Target: Bytecode Verifier Exploit Signature
+
+2. http://wicar.org/data/ms06-014.html
+   - Type: MDAC ActiveX Remote Code Execution Probe
+   - Target: ActiveX Vulnerability Pattern
+
+3. http://wicar.org/data/java-test.html
+   - Type: Benign Java Applet Security Test
+   - Target: Unsigned Applet Execution Check
+
+4. http://wicar.org/data/flash-test.html
+   - Type: Adobe Flash Memory Corruption Probe
+   - Target: Legacy SWF Payload Signature
+
+
+[CATEGORY 2: CREDENTIAL HARVESTING & PHISHING LINKS]
+5. http://facebook.com-login-verify-account.com/auth/login.php
+   - Type: Brand Impersonation / Credential Phishing
+   - Indicator: Misleading subdomain mimicking social network
+
+6. http://free-gift-promo.biz/claim?user=admin&token=9928
+   - Type: Scam / Suspicious Domain
+   - Indicator: Typical social engineering link pattern
+
+7. http://testsafebrowsing.appspot.com/s/phishing.html
+   - Type: Standardized Google Safe Browsing Phishing Sample
+   - Indicator: Safe industry reference link
+
+
+[CATEGORY 3: WEB APPLICATION ATTACK PAYLOADS]
+8. GET /users?id=10' OR '1'='1' -- HTTP/1.1
+   - Type: SQL Injection (SQLi)
+   - Indicator: Boolean-based authentication bypass pattern
+
+9. GET /search?q=<script>alert('VULNERABLE')</script> HTTP/1.1
+   - Type: Cross-Site Scripting (Reflected XSS)
+   - Indicator: Executable JavaScript tag in query parameter
+
+10. POST /api/admin smb_exploit payload sequence
+    - Type: Remote Service Probe / SMB Exploit
+    - Indicator: Port 445 attack keyword signature
+
+11. POST /api/diagnostics host=127.0.0.1; whoami HTTP/1.1
+    - Type: Command Injection
+    - Indicator: Shell separator (;) followed by system command (whoami)
+
+12. GET /files?path=../../etc/passwd HTTP/1.1
+    - Type: Directory/Path Traversal
+    - Indicator: Directory traversal sequence (../) attempting file system escape
+
+13. GET /view?file=%2e%2e%2f%2e%2e%2fetc%2fpasswd HTTP/1.1
+    - Type: Directory/Path Traversal (URL-Encoded)
+    - Indicator: URL-encoded dot sequence (%2e%2e) traversal pattern
+
+
+[CATEGORY 4: BENIGN NORMAL TRAFFIC (NEGATIVE CONTROLS)]
+14. GET /index.html HTTP/1.1
+    - Expected Result: Clean Packet (No threat detected)
+
+15. GET /static/style.css HTTP/1.1
+    - Expected Result: Clean Packet (No threat detected)
+
+16. https://www.google.com/search?q=cybersecurity
+    - Expected Result: Clean Packet (No threat detected)
+======================================================================
